@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/SoorajSundar1505/GitDelete.git'
+            }
+        }
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+    }
+    
+    post{
+            always{
+                emailext body: "The build ${env.BUILD_ID} of job ${env.JOB_NAME} is complete. Please check the results at ${env.BUILD_URL}.",
+                subject: "Build Notification for ${env.BUILD_ID}",
+                to: 'soorajswtester@gmail.com'
+            }
+        }
+}
+
+
+
+Medium blog to set gmail in jenkins  --  https://medium.com/@soorajswtester/setting-up-app-password-in-gmail-for-jenkins-integration-7fcc780c5a78
